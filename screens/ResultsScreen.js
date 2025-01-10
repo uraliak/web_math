@@ -33,7 +33,7 @@ const ResultsScreen = ({ route, navigation }) => {
             <Text>Возраст: {age}</Text>
             <Text>Общий балл: {score}</Text>
             <Text>Уровень тревожности: {anxietyLevel}</Text>
-            <Button title="Просмотреть все результаты" onPress={() => navigation.navigate('AllResults')} />
+            <Button title="Просмотреть все результаты" onPress={() => navigation.navigate('AllResultsScreen')} />
         </View>
     );
 };

@@ -21,14 +21,15 @@ const AllResultsScreen = () => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Все результаты</Text>
+            <Text style={styles.title}>Сохраненные результаты</Text>
             <FlatList
                 data={results}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => (
-                    <View style={styles.resultRow}>
-                        <Text>{`ФИО: ${item.name}, Возраст: ${item.age}, Балл: ${item.score}`}</Text>
-                        <Text>{`Уровень: ${item.anxietyLevel}, Дата: ${new Date(item.date).toLocaleDateString()}`}</Text>
+                    <View style={styles.row}>
+                        <Text style={styles.cell}>Дата: {new Date(item.date).toLocaleDateString()}</Text>
+                        <Text style={styles.cell}>Реактивная: {item.reactiveScore} ({item.reactiveInterpretation})</Text>
+                        <Text style={styles.cell}>Личностная: {item.personalScore} ({item.personalInterpretation})</Text>
                     </View>
                 )}
             />
@@ -44,12 +45,17 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 20,
         marginBottom: 10,
+        textAlign: 'center',
     },
-    resultRow: {
-        borderWidth: 1,
-        borderRadius: 5,
-        padding: 10,
-        marginVertical: 5,
+    row: {
+        marginBottom: 20,
+        borderBottomWidth: 1,
+        borderColor: '#ddd',
+        paddingBottom: 10,
+    },
+    cell: {
+        fontSize: 16,
+        marginBottom: 5,
     },
 });
 

@@ -1,11 +1,14 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = () => {
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Добро пожаловать в приложение для определения уровня тревожности</Text>
-            <Button title="Начать тест" onPress={() => navigation.navigate('Test')} />
+            <Text style={styles.title}>Добро пожаловать!</Text>
+            <Text style={styles.text}>
+                Это приложение помогает определить уровень тревожности с помощью опросника Спилбергера — Ханина.
+            </Text>
+            <Text style={styles.text}>Пожалуйста, выберите "Тест" в нижней панели для начала.</Text>
         </View>
     );
 };
@@ -18,9 +21,14 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     title: {
-        fontSize: 20,
-        textAlign: 'center',
+        fontSize: 24,
+        fontWeight: 'bold',
         marginBottom: 20,
+    },
+    text: {
+        fontSize: 16,
+        textAlign: 'center',
+        marginBottom: 10,
     },
 });
 
