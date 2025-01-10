@@ -10,6 +10,7 @@ const AllResultsScreen = () => {
             try {
                 const storedResults = await AsyncStorage.getItem('results');
                 const results = storedResults ? JSON.parse(storedResults) : [];
+                results.reverse();
                 setResults(results);
             } catch (error) {
                 console.error('Ошибка получения данных:', error);
@@ -17,7 +18,7 @@ const AllResultsScreen = () => {
         };
 
         fetchResults();
-    }, []);
+    });
 
     return (
         <View style={styles.container}>
@@ -28,6 +29,7 @@ const AllResultsScreen = () => {
                 renderItem={({ item }) => (
                     <View style={styles.row}>
                         <Text style={styles.cell}>Дата: {new Date(item.date).toLocaleDateString()}</Text>
+                        <Text style={styles.cell}>Время: {item.time}</Text>
                         <Text style={styles.cell}>Реактивная: {item.reactiveScore} ({item.reactiveInterpretation})</Text>
                         <Text style={styles.cell}>Личностная: {item.personalScore} ({item.personalInterpretation})</Text>
                     </View>
