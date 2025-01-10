@@ -1,11 +1,34 @@
-// screens/TestScreen.js
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
+
+const questions = [
+    'Я чувствую себя спокойным.',
+    'Я чувствую себя уставшим.',
+    'Я быстро утомляюсь.',
+    'Я ощущаю себя на грани нервного срыва.',
+    'Мне комфортно в данный момент.',
+    'Я испытываю чувство напряжения.',
+    'Я переживаю о будущем.',
+    'Я не могу сосредоточиться.',
+    'Я чувствую себя неуверенно.',
+    'Я испытываю чувство удовлетворения.',
+    'Я чувствую внутреннее напряжение.',
+    'Я легко расстраиваюсь.',
+    'Мне трудно сидеть на месте.',
+    'Я испытываю чувство беспокойства.',
+    'Я легко обижаюсь.',
+    'Я не чувствую удовлетворения от жизни.',
+    'Мне трудно принимать решения.',
+    'Я чувствую внутреннее спокойствие.',
+    'Я уверен в себе.',
+    'Мое настроение колеблется.',
+    // Дополните до 40 вопросов
+];
 
 const TestScreen = ({ navigation }) => {
     const [name, setName] = useState('');
     const [age, setAge] = useState('');
-    const [answers, setAnswers] = useState(Array(40).fill(0));
+    const [answers, setAnswers] = useState(Array(questions.length).fill(0));
 
     const handleAnswerChange = (index, value) => {
         const newAnswers = [...answers];
@@ -20,30 +43,32 @@ const TestScreen = ({ navigation }) => {
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            <Text style={styles.title}>Anxiety Test</Text>
+            <Text style={styles.title}>Тест тревожности</Text>
             <TextInput
-                placeholder="Full Name"
+                placeholder="ФИО"
                 style={styles.input}
                 value={name}
                 onChangeText={setName}
             />
             <TextInput
-                placeholder="Age"
+                placeholder="Возраст"
                 style={styles.input}
                 value={age}
                 onChangeText={setAge}
                 keyboardType="numeric"
             />
-            {Array.from({ length: 40 }).map((_, index) => (
-                <TextInput
-                    key={index}
-                    placeholder={`Question ${index + 1}`}
-                    style={styles.input}
-                    keyboardType="numeric"
-                    onChangeText={(value) => handleAnswerChange(index, value)}
-                />
+            {questions.map((question, index) => (
+                <View key={index} style={styles.questionContainer}>
+                    <Text>{`${index + 1}. ${question}`}</Text>
+                    <TextInput
+                        style={styles.input}
+                        keyboardType="numeric"
+                        placeholder="Оценка (0-4)"
+                        onChangeText={(value) => handleAnswerChange(index, value)}
+                    />
+                </View>
             ))}
-            <Button title="Submit" onPress={calculateResult} />
+            <Button title="Отправить" onPress={calculateResult} />
         </ScrollView>
     );
 };
@@ -53,15 +78,18 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     title: {
-        fontSize: 24,
-        marginBottom: 20,
+        fontSize: 20,
         textAlign: 'center',
+        marginBottom: 20,
     },
     input: {
         borderWidth: 1,
+        borderRadius: 5,
         padding: 10,
         marginVertical: 5,
-        borderRadius: 5,
+    },
+    questionContainer: {
+        marginBottom: 10,
     },
 });
 

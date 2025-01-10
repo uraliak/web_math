@@ -1,4 +1,3 @@
-// screens/ResultsScreen.js
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -6,10 +5,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const ResultsScreen = ({ route, navigation }) => {
     const { name, age, score } = route.params;
 
-    let anxietyLevel = '';
-    if (score < 80) anxietyLevel = 'Low Anxiety';
-    else if (score < 120) anxietyLevel = 'Moderate Anxiety';
-    else anxietyLevel = 'High Anxiety';
+    const anxietyLevel =
+        score < 80 ? 'Низкий уровень тревожности' :
+            score < 120 ? 'Средний уровень тревожности' :
+                'Высокий уровень тревожности';
 
     const saveResult = async () => {
         const newResult = { name, age, score, anxietyLevel, date: new Date().toISOString() };
@@ -19,7 +18,7 @@ const ResultsScreen = ({ route, navigation }) => {
             results.push(newResult);
             await AsyncStorage.setItem('results', JSON.stringify(results));
         } catch (error) {
-            console.error('Error saving result:', error);
+            console.error('Ошибка сохранения результата:', error);
         }
     };
 
@@ -29,12 +28,12 @@ const ResultsScreen = ({ route, navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Results</Text>
-            <Text>Name: {name}</Text>
-            <Text>Age: {age}</Text>
-            <Text>Score: {score}</Text>
-            <Text>Level: {anxietyLevel}</Text>
-            <Button title="View All Results" onPress={() => navigation.navigate('AllResults')} />
+            <Text style={styles.title}>Ваш результат</Text>
+            <Text>ФИО: {name}</Text>
+            <Text>Возраст: {age}</Text>
+            <Text>Общий балл: {score}</Text>
+            <Text>Уровень тревожности: {anxietyLevel}</Text>
+            <Button title="Просмотреть все результаты" onPress={() => navigation.navigate('AllResults')} />
         </View>
     );
 };
@@ -44,9 +43,10 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        padding: 20,
     },
     title: {
-        fontSize: 24,
+        fontSize: 20,
         marginBottom: 20,
     },
 });

@@ -1,12 +1,9 @@
-// screens/AllResultsScreen.js
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TextInput } from 'react-native';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AllResultsScreen = () => {
     const [results, setResults] = useState([]);
-    const [filteredResults, setFilteredResults] = useState([]);
-    const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
         const fetchResults = async () => {
@@ -14,43 +11,24 @@ const AllResultsScreen = () => {
                 const storedResults = await AsyncStorage.getItem('results');
                 const results = storedResults ? JSON.parse(storedResults) : [];
                 setResults(results);
-                setFilteredResults(results);
             } catch (error) {
-                console.error('Error fetching results:', error);
+                console.error('Ошибка получения данных:', error);
             }
         };
 
         fetchResults();
     }, []);
 
-    const handleSearch = (query) => {
-        setSearchQuery(query);
-        const filtered = results.filter((result) =>
-            result.name.toLowerCase().includes(query.toLowerCase()) ||
-            result.age.toString().includes(query)
-        );
-        setFilteredResults(filtered);
-    };
-
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>All Results</Text>
-            <TextInput
-                style={styles.searchInput}
-                placeholder="Search by name or age"
-                value={searchQuery}
-                onChangeText={handleSearch}
-            />
+            <Text style={styles.title}>Все результаты</Text>
             <FlatList
-                data={filteredResults}
+                data={results}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => (
-                    <View style={styles.resultItem}>
-                        <Text>Name: {item.name}</Text>
-                        <Text>Age: {item.age}</Text>
-                        <Text>Score: {item.score}</Text>
-                        <Text>Level: {item.anxietyLevel}</Text>
-                        <Text>Date: {new Date(item.date).toLocaleDateString()}</Text>
+                    <View style={styles.resultRow}>
+                        <Text>{`ФИО: ${item.name}, Возраст: ${item.age}, Балл: ${item.score}`}</Text>
+                        <Text>{`Уровень: ${item.anxietyLevel}, Дата: ${new Date(item.date).toLocaleDateString()}`}</Text>
                     </View>
                 )}
             />
@@ -64,21 +42,14 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     title: {
-        fontSize: 24,
+        fontSize: 20,
         marginBottom: 10,
-        textAlign: 'center',
     },
-    searchInput: {
+    resultRow: {
         borderWidth: 1,
         borderRadius: 5,
         padding: 10,
-        marginBottom: 10,
-    },
-    resultItem: {
-        borderWidth: 1,
-        borderRadius: 5,
-        padding: 10,
-        marginBottom: 10,
+        marginVertical: 5,
     },
 });
 
